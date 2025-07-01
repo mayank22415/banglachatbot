@@ -1,0 +1,33 @@
+# --- Core Web App & Server ---
+# Used to create the web interface and handle real-time communication.
+flask
+flask-socketio
+eventlet
+
+# --- AI, LangChain, and Local Model Execution ---
+# The core libraries for orchestrating the AI logic and running local models.
+langchain
+langchain-community
+ctransformers
+# If you have a compatible NVIDIA GPU, install with CUDA support for better performance:
+# pip install ctransformers[cuda]
+
+# --- Knowledge Base: Document Processing and Vector Store ---
+# Libraries for loading all file types and for the local FAISS database.
+unstructured
+langchain-unstructured
+faiss-cpu
+pypdf
+tiktoken
+lxml
+sentence-transformers  # For local embeddings
+
+# --- Voice Input/Output Features ---
+# Used for converting text-to-speech and speech-to-text.
+gTTS
+pydub
+SpeechRecognition
+
+# --- Utilities ---
+# Used for loading API keys from the .env file.
+python-dotenv
