@@ -1,11 +1,9 @@
 import time
 from config import get_configurataion
 from models.llm import LLModel
-from faiss import load_knowledge_base  # Import the local FAISS loader
-
+from faiss import load_knowledge_base
 def launchbot(configs):
     
-    # Use the function from faiss.py to load documents and create a local vector store
     vectorstore = load_knowledge_base(configs)
 
     if vectorstore:
