@@ -1,4 +1,3 @@
-# app.py
 
 import os
 import time
@@ -22,9 +21,7 @@ from config import get_configurataion
 from models.llm import LLModel
 
 def load_knowledge_base(config):
-    """
-    Loads documents from the data directory, creates embeddings, and builds a FAISS vector store.
-    """
+  
     data_dir = config["Knowledge_base"]
     supported_file_types = config["supported_file_types"]
     print(f"--- Loading Knowledge Base from '{data_dir}' directory ---")
@@ -93,8 +90,7 @@ print("--- AI Model Initialized. Application is ready to use. ---")
 
 @app.route('/')
 def index():
-    return render_template('chat.html') # Ensure you have a chat.html template
-
+    return render_template('chat.html')
 @socketio.on('send_message')
 def handle_message(data):
     user_question = data.get('message', '').strip()
@@ -103,14 +99,13 @@ def handle_message(data):
         
     print(f"Received query: '{user_question}'")
     
-    # Get response from the AI model
     start_time = time.time()
     response_text = AI.get_response(user_question)
     end_time = time.time()
     
     print(f"Generated response: '{response_text}' in {end_time - start_time:.2f}s")
 
-    # Convert response text to speech
+
     try:
         tts = gTTS(text=response_text, lang='bn', slow=False)
         audio_buffer = io.BytesIO()
@@ -121,7 +116,7 @@ def handle_message(data):
         print(f"Error during TTS generation: {e}")
         audio_base64 = None
 
-    # Emit the complete response back to the client
+    
     emit('receive_message', {
         'response': response_text,
         'audio_base64': audio_base64
