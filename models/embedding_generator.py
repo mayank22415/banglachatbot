@@ -13,30 +13,27 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 class EmbeddingGenerator:
-    """
-    Handles the creation and management of document embeddings using Mistral AI or local embeddings.
-    """
+
     def __init__(self, configs):
         self.configs = configs
         
-        # Initialize embeddings based on provider choice
         embeddings_provider = configs.get("embeddings_provider", "mistral")
         
         if embeddings_provider == "mistral":
-            # Use Mistral embeddings
+         
             self.embeddings_model = MistralAIEmbeddings(
                 model=configs["embeddings_model_name"],
                 mistral_api_key=configs["mistral_api_key"]
             )
         elif embeddings_provider == "sentence_transformers":
-            # Use local sentence transformers (free alternative)
+           
             self.embeddings_model = SentenceTransformerEmbeddings(
                 model_name=configs.get("embeddings_model_name", "all-MiniLM-L6-v2")
             )
         else:
             raise ValueError(f"Unsupported embeddings provider: {embeddings_provider}")
 
-        # Initialize Pinecone client
+ 
         self.pc = PineconeClient(api_key=configs["pinecone_api_key"])
         self.index_name = configs["pinecone_index_name"]
         self.knowledge_base_dir = configs["Knowledge_base"]
