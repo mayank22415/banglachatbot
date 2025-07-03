@@ -16,7 +16,6 @@ from langchain_community.document_loaders import (
     JSONLoader
 )
 from langchain_unstructured import UnstructuredLoader
-# NOTE: MistralAIEmbeddings import removed, as we only use local embeddings now
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
@@ -25,10 +24,7 @@ from models.llm import LLModel
 
 
 def load_knowledge_base(config):
-    """
-    Loads all documents from the data directory, creates embeddings locally,
-    and builds a FAISS vector store in memory.
-    """
+  
     data_dir = config["Knowledge_base"]
     supported_file_types = config["supported_file_types"]
     
@@ -71,8 +67,6 @@ def load_knowledge_base(config):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
     docs_to_embed = text_splitter.split_documents(all_docs)
     print(f"\nCreated {len(docs_to_embed)} document chunks for embedding.")
-
-    # Initialize local sentence-transformer embeddings
     print("Using local sentence transformers embeddings...")
     embeddings = SentenceTransformerEmbeddings(
         model_name=config.get("embeddings_model_name", "all-MiniLM-L6-v2")
@@ -93,9 +87,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 print("Initializing application...")
 configs = get_configurataion()
-# Use the local FAISS loader function
 vectorstore = load_knowledge_base(configs) 
-# Initialize the AI with the local model and FAISS vectorstore
 AI = LLModel(configs, vectorstore) 
 print("AI Model Initialized. Application ready.")
 
